@@ -11,12 +11,12 @@ class CreatePlantationUseCase{
 
 
 
-  async   execute(namePlantation : String) : Promise<Plantation>{
+  async   execute(namePlantation : String, typeOfIrrigation: String) : Promise<Plantation>{
 
         const repository  = new PlantationRepository();
 
         try {
-            const plantation : Plantation =  repository.CreatePlantation(namePlantation)
+            const plantation : Plantation =  repository.CreatePlantation(namePlantation,typeOfIrrigation)
 
             return plantation;
             

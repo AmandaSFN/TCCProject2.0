@@ -19,9 +19,9 @@ class PlantationRepository{
 
 
 
-    async CreatePlantation(NamePlantation : String) : Promise<Plantation>{
+    async CreatePlantation(NamePlantation : String, typeOfIrrigation : String) : Promise<Plantation>{
 
-        const plantation = new Plantation(NamePlantation)
+        const plantation = new Plantation(NamePlantation, typeOfIrrigation)
 
         await this.repository.createQueryBuilder()
         .insert()
@@ -51,6 +51,24 @@ class PlantationRepository{
         return plantingSituation;
 
         
+    }
+
+    async AlterTypeOfIrrigation(id:String, typeOfIrrigation: String) : Promise<Bool>{
+
+        const repository = getRepository(PlantingSituation)
+        const situations = await repository
+        .createQueryBuilder()
+        .update(Plantation)
+        .set({ 
+            "typeOfIrrigation" : typeOfIrrigation
+        })
+        .where("id = :id", { id: id })
+        .execute();
+        
+        console.log(id)
+        
+        return true;
+
     }
 
 

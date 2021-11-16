@@ -11,9 +11,13 @@ class Plantation {
     @Column()
     namePlantation : String;
 
-    constructor(namePlantation : String){
+    @Column()
+    typeOfIrrigation : String;
+
+    constructor(namePlantation : String, typeOfIrrigation: String){
 
         this.namePlantation = namePlantation;
+        this.typeOfIrrigation = typeOfIrrigation;
 
         if(!this.id) this.id = uuidv4()
 
