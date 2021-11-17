@@ -36,9 +36,9 @@ class PlantationRepository{
         
     }
 
-    async RegisterSituation(plantingId, typeOfIrrigation, irrigationDate, weather,moisture) : Promise<PlantingSituation>{
+    async RegisterSituation(plantingId, typeOfIrrigation, irrigationDate,moisture) : Promise<PlantingSituation>{
 
-        const plantingSituation = new PlantingSituation(plantingId, typeOfIrrigation, irrigationDate, weather,moisture)
+        const plantingSituation = new PlantingSituation(plantingId, typeOfIrrigation, irrigationDate,moisture)
 
         await this.repository.createQueryBuilder()
         .insert()

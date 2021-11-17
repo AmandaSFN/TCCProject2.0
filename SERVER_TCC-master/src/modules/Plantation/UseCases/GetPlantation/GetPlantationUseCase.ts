@@ -15,11 +15,16 @@ class GetPlantationUseCase{
 
 
     async execute(id : String) : Promise<Plantation>{
-        //COLOCAR O CAMINHO COMPLEO
+
+        
+       
 
         const repository = new PlantationRepository();
 
         try {
+
+            
+
             let plantation =  await repository.GetPlantation(id)
             let situations = await repository.GetSituation(id);
 
@@ -36,12 +41,22 @@ class GetPlantationUseCase{
                 "PlantingSituation_moisture": situations[0].PlantingSituation_moisture
                 ,"PlantingSituation_IrrigationDate": situations[0].PlantingSituation_IrrigationDate
             })
-            
-         
+
+
             return {PlantingSituation}
         } catch (error) {
             
         }
+
+        //COLOCAR O CAMINHO COMPLEO
+       
+
+           
+       
+
+
+
+        
 
     }
 }

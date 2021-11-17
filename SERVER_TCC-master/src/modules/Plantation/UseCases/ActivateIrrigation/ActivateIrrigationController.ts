@@ -15,13 +15,13 @@ class ActivateIrrigationController {
 
     async handle(req: Request, res: Response){
 
-        const {id} = req.headers
+        const {porcentagem} = req.body
 
         const activateIrrigationUseCase = new ActivateIrrigationUseCase();
 
         try {
 
-            const plantation = await activateIrrigationUseCase.execute(id)
+            const plantation = await activateIrrigationUseCase.execute(porcentagem)
 
             return res.status(200).json(plantation);
             

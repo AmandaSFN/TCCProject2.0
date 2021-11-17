@@ -19,19 +19,15 @@ class PlantingSituation{
     irrigationDate : Date;
 
     @Column()
-    weather  : Number;
-
-    @Column()
     moisture  : Number;
 
 
-    constructor( plantingId : String, typeOfIrrigation : String, irrigationDate  : Date, weather  : Integer, moisture : Integer){
+    constructor( plantingId : String, typeOfIrrigation : String, irrigationDate  : Date, moisture : Integer){
 
         if(!this.id) this.id = uuid();
         this.plantingId = plantingId;
         this.typeOfIrrigation = typeOfIrrigation;
         this.irrigationDate = irrigationDate;
-        this.weather = weather;
         this.moisture = moisture;        
 
     }

@@ -10,28 +10,37 @@ class ActivateIrrigationUseCase{
     constructor(){}
 
 
-    async execute() : Promise<Void>{
+    async execute(porcentagem : string) : Promise<Void>{
         //COLOCAR O CAMINHO COMPLEO
-        return new Promise((resolve, reject) =>{
+       const repository = new PlantationRepository();
+       
+       //porcentagem = porcentagem /100
 
-            exec('python3 ./src/modules/IA/UseCase/PythonProcess/IrrigacaoManual.py', (error, stdout, stderr) => {
+       
+
+        return new Promise(async(resolve, reject) =>{
+
+             exec(`python ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/IrrigacaoManual.py ${porcentagem}`,async (error, stdout, stderr) => {
     
                 if(error) {
+                    console.log(error.message)
                     reject(error.message)
-                    
                 }
         
                 if(stdout){
-                    resolve(stdout);
+                   const datas = stdout.replace('\r\n','').split(' ')
+                  const  situations = await  repository.RegisterSituation(datas[0],datas[1],new Date(datas[2]),datas[3] )
+                  resolve(situations)
         
                 }
         
                 if(stderr){
-                    reject(stderr);
+                    console.log(stderr);
+                    reject(reject)
                 }
         })
         
-        })
+        }) 
     
     }
      
