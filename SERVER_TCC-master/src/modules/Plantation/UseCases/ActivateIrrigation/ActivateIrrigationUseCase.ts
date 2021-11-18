@@ -20,7 +20,7 @@ class ActivateIrrigationUseCase{
 
         return new Promise(async(resolve, reject) =>{
 
-             exec(`python ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/IrrigacaoManual.py ${porcentagem}`,async (error, stdout, stderr) => {
+             exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/IrrigacaoManual.py ${porcentagem}`,async (error, stdout, stderr) => {
     
                 if(error) {
                     console.log(error.message)

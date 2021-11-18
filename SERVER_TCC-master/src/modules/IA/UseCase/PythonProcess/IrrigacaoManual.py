@@ -1,5 +1,2 @@
-import Automacao
+print ('e2a06b96-5c1b-486c-8e1e-f500d537c0d6','M','2021-11-16','0.20')
 
-automacao = Automacao.Automacao
-
-automacao.AcionarRele(0, 200)
