@@ -78,8 +78,9 @@ class PlantationRepository{
 
         const situations = await repository
         .createQueryBuilder()
-        .where("PlantingSituation.plantingId = :id",{id:id})
-        .execute()
+        .orderBy('PlantingSituation.irrigationDate','DESC')
+        .getOne()
+        
 
 
         return situations;

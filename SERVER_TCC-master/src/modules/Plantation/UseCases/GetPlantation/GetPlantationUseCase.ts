@@ -24,27 +24,31 @@ class GetPlantationUseCase{
         try {
 
             
-
+            
             let plantation =  await repository.GetPlantation(id)
             let situations = await repository.GetSituation(id);
-
             let typeOfIrrigation;
 
-            if (situations[0].PlantingSituation_typeOfIrrigation === 'M') typeOfIrrigation = 'Manual'
-            else typeOfIrrigation = 'Inteligência Artificial'
+            if(situations.typeOfIrrigation == 'M'){
+                typeOfIrrigation = 'Manual'
+            }
+            else{
+                typeOfIrrigation = 'Automatizado' 
+            }
 
-            let PlantingSituation = {}
-            Object.assign(PlantingSituation, {
+         
+            const plantingSituation = {}
+            Object.assign(plantingSituation, {
                 "namePlantation": plantation.namePlantation,
-                "typeOfIrrigation": plantation.typeOfIrrigation,
+                "typeOfIrrigation": typeOfIrrigation,
                 "PlantingSituation_typeOfIrrigation": typeOfIrrigation,
-                "PlantingSituation_moisture": situations[0].PlantingSituation_moisture
-                ,"PlantingSituation_IrrigationDate": situations[0].PlantingSituation_IrrigationDate
+                "PlantingSituation_moisture": (situations.moisture*100).toFixed(0),
+                "PlantingSituation_IrrigationDate": new Date(situations.irrigationDate).toLocaleString()
             })
 
-
-            return {PlantingSituation}
+            return {plantingSituation}
         } catch (error) {
+            console.log(error);
             
         }
 

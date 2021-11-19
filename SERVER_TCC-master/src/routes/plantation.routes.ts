@@ -21,19 +21,19 @@ plantationRoute.post('/platation/register-situation',  (req,res)=>{
 })
 
 
-plantationRoute.get('/platation/get-plantation',  (req,res)=>{
+plantationRoute.post('/platation/get-plantation',  (req,res)=>{
     const controller = new GetPlantationController();
     controller.handle(req, res);
 })
 
 
-plantationRoute.patch('/platation/toggle-typeIrrigation',  (req,res)=>{
+plantationRoute.post('/platation/toggle-typeIrrigation',  (req,res)=>{
     const controller = new ToggleTypeIrrigationController(); 
     controller.handle(req, res);
 })
 
 
-plantationRoute.get('/platation/activate-irrigation',  (req,res)=>{
+plantationRoute.post('/platation/activate-irrigation',  (req,res)=>{
 
     const controller = new ActivateIrrigationController();
     controller.handle(req, res);
