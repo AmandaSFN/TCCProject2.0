@@ -19,9 +19,9 @@ class PlantationRepository{
 
 
 
-    async CreatePlantation(NamePlantation : String) : Promise<Plantation>{
+    async CreatePlantation(NamePlantation : String, typeOfIrrigation : String) : Promise<Plantation>{
 
-        const plantation = new Plantation(NamePlantation)
+        const plantation = new Plantation(NamePlantation, typeOfIrrigation)
 
         await this.repository.createQueryBuilder()
         .insert()
@@ -36,9 +36,9 @@ class PlantationRepository{
         
     }
 
-    async RegisterSituation(plantingId, typeOfIrrigation, irrigationDate, weather,moisture) : Promise<PlantingSituation>{
+    async RegisterSituation(plantingId, typeOfIrrigation, irrigationDate,moisture) : Promise<PlantingSituation>{
 
-        const plantingSituation = new PlantingSituation(plantingId, typeOfIrrigation, irrigationDate, weather,moisture)
+        const plantingSituation = new PlantingSituation(plantingId, typeOfIrrigation, irrigationDate,moisture)
 
         await this.repository.createQueryBuilder()
         .insert()
@@ -53,6 +53,24 @@ class PlantationRepository{
         
     }
 
+    async AlterTypeOfIrrigation(id:String, typeOfIrrigation: String) : Promise<Bool>{
+
+        const repository = getRepository(PlantingSituation)
+        const situations = await repository
+        .createQueryBuilder()
+        .update(Plantation)
+        .set({ 
+            "typeOfIrrigation" : typeOfIrrigation
+        })
+        .where("id = :id", { id: id })
+        .execute();
+        
+        console.log(id)
+        
+        return true;
+
+    }
+
 
     async GetSituation(id:String): Promise<UNKNOWN>{
 
@@ -60,8 +78,9 @@ class PlantationRepository{
 
         const situations = await repository
         .createQueryBuilder()
-        .where("PlantingSituation.plantingId = :id",{id:id})
-        .execute()
+        .orderBy('PlantingSituation.irrigationDate','DESC')
+        .getOne()
+        
 
 
         return situations;

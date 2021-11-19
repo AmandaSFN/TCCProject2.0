@@ -1,8 +1,10 @@
 import {Router} from 'express'
+import { ActivateIrrigationController } from '../modules/Plantation/UseCases/ActivateIrrigation/ActivateIrrigationController';
 import { CreatePlantationController } from '../modules/Plantation/UseCases/CreatePlantation/CreatePlantationController';
 import { GetPlantationController } from '../modules/Plantation/UseCases/GetPlantation/GetPlantationController';
 import { GetSituationController } from '../modules/Plantation/UseCases/GetSituation/GetSituationController';
 import { RegisterSituationController } from '../modules/Plantation/UseCases/RegisterSituation/RegisterSituationController';
+import { ToggleTypeIrrigationController } from '../modules/Plantation/UseCases/ToggleTypeIrrigation/ToggleTypeIrrigationController';
 
 const plantationRoute = Router();
 
@@ -19,19 +21,23 @@ plantationRoute.post('/platation/register-situation',  (req,res)=>{
 })
 
 
-plantationRoute.get('/platation/get-plantation',  (req,res)=>{
+plantationRoute.post('/platation/get-plantation',  (req,res)=>{
     const controller = new GetPlantationController();
     controller.handle(req, res);
 })
 
 
-plantationRoute.patch('/platation/toggle-typeIrrigation',  (req,res)=>{
-    console.log('Tipo de irrigação')
+plantationRoute.post('/platation/toggle-typeIrrigation',  (req,res)=>{
+    const controller = new ToggleTypeIrrigationController(); 
+    controller.handle(req, res);
 })
 
 
-plantationRoute.get('/platation/activate-irrigation',  (req,res)=>{
-    console.log('PLANTA IRRIGADA')
+plantationRoute.post('/platation/activate-irrigation',  (req,res)=>{
+
+    const controller = new ActivateIrrigationController();
+    controller.handle(req, res);
+
 })
 
 

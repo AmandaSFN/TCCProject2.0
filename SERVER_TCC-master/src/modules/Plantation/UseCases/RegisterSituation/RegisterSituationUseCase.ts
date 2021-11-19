@@ -13,7 +13,7 @@ class RegisterSituationUseCase {
 
     constructor(){}
 
-   async execute({plantingId, typeOfIrrigation, irrigationDate, weather,moisture} : RegisterSituationDTO){
+   async execute({plantingId, typeOfIrrigation, irrigationDate,moisture} : RegisterSituationDTO){
 
     try {
 
@@ -21,7 +21,7 @@ class RegisterSituationUseCase {
 
         const date = new Date(irrigationDate)
 
-        const situation = await repository.RegisterSituation(plantingId, typeOfIrrigation, date, weather,moisture)
+        const situation = await repository.RegisterSituation(plantingId, typeOfIrrigation, date,moisture)
     
         return situation;
         

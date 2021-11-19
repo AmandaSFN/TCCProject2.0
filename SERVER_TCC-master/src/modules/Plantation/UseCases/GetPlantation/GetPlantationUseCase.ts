@@ -13,49 +13,54 @@ class GetPlantationUseCase{
     constructor(){}
 
 
-    async teste(): Promise<void>{
-
-        return new Promise<void>((resolve, reject) =>{
-
-           
-
-        })
-       
-        
-
-}
 
     async execute(id : String) : Promise<Plantation>{
-        //COLOCAR O CAMINHO COMPLEO
 
-        exec('python ./src/modules/Plantation/UseCases/GetPlantation/Main.py', (error, stdout, stderr) => {
-
-            if(error) {
-                console.log(error.message);
-                
-            }
-    
-            if(stdout){
-                console.log(stdout)
-
-            }
-    
-            if(stderr){
-                console.log(stderr)
-            }
-
-    })
+        
+       
 
         const repository = new PlantationRepository();
 
         try {
-            const plantation =  await repository.GetPlantation(id)
-            const situations = await repository.GetSituation(id);
 
-            return {situations, plantation}
+            
+            
+            let plantation =  await repository.GetPlantation(id)
+            let situations = await repository.GetSituation(id);
+            let typeOfIrrigation;
+
+            if(situations.typeOfIrrigation == 'M'){
+                typeOfIrrigation = 'Manual'
+            }
+            else{
+                typeOfIrrigation = 'Automatizado' 
+            }
+
+         
+            const plantingSituation = {}
+            Object.assign(plantingSituation, {
+                "namePlantation": plantation.namePlantation,
+                "typeOfIrrigation": typeOfIrrigation,
+                "PlantingSituation_typeOfIrrigation": typeOfIrrigation,
+                "PlantingSituation_moisture": (situations.moisture*100).toFixed(0),
+                "PlantingSituation_IrrigationDate": new Date(situations.irrigationDate).toLocaleString()
+            })
+
+            return {plantingSituation}
         } catch (error) {
+            console.log(error);
             
         }
+
+        //COLOCAR O CAMINHO COMPLEO
+       
+
+           
+       
+
+
+
+        
 
     }
 }

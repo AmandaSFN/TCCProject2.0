@@ -10,12 +10,13 @@ class CreatePlantationController{
 
     async handle(req: Request, res : Response): Promise<Response> {
         const {namePlantation} = req.body
+        const {typeOfIrrigation} = req.body;
 
         try {
 
             const createPlantationUseCase = new CreatePlantationUseCase();
 
-           const plantation =  await createPlantationUseCase.execute(namePlantation)
+           const plantation =  await createPlantationUseCase.execute(namePlantation, typeOfIrrigation)
            res.json({"Name": plantation.namePlantation, "id" : plantation.id}).status(201);
             
         } catch (error) {
