@@ -1,0 +1,3 @@
+-->Ligar Servidor
+-->npm install
+-->npm run dev
