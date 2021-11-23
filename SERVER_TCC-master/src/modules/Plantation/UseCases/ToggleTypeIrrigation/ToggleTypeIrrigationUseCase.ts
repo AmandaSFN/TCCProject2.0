@@ -14,51 +14,55 @@ class ToggleTypeIrrigationUseCase {
    async execute({id,  typeOfIrrigation} : RegisterSituationDTO){
 
     try {
-        const repository = new PlantationRepository();
+        
         //ATIVAR A IA
         console.log(typeOfIrrigation)
         if(typeOfIrrigation === "IA"){
-            exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
+            
+            ToggleTypeIrrigationUseCase.AtivarAutomacao(id,typeOfIrrigation)
+            
+        //     const repository = new PlantationRepository();
+        //     exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
                     
-                if(error) {
-                    console.log(error.message)
-                }
+        //         if(error) {
+        //             console.log(error.message)
+        //         }
         
-                if(stdout){
-                     const situation = await repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
+        //         if(stdout){
+        //              const situation = await repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
                      
-                     const datas = stdout.replace('\r\n','').split(' ')
-                     const  situations = await  repository.RegisterSituation(datas[0],datas[1],new Date(datas[2]),datas[3] )
+        //              const datas = stdout.replace('\r\n','').split(' ')
+        //              const  situations = await  repository.RegisterSituation(datas[0],datas[1],new Date(datas[2]),datas[3] )
                      
         
-                }
+        //         }
         
-                if(stderr){
-                    console.log(stderr); 
-                }
-        })
+        //         if(stderr){
+        //             console.log(stderr); 
+        //         }
+        // })
         }
 
     //PARAR A IA
        else {
 
-        
+        ToggleTypeIrrigationUseCase.killProcess();
 
-            exec(`killall -e python3`,async (error, stdout, stderr) => {
+    //         exec(`killall -e python3`,async (error, stdout, stderr) => {
    
-               if(error) {
+    //            if(error) {
                    
-               }
+    //            }
        
-               if(stdout){
+    //            if(stdout){
        
-               }
+    //            }
        
-               if(stderr){
-                   console.log(stderr);
+    //            if(stderr){
+    //                console.log('A schedule finalizado.');
                   
-               }
-       })
+    //            }
+    //    })
 
        }
         
@@ -69,6 +73,50 @@ class ToggleTypeIrrigationUseCase {
         throw new Error(error.message);
     }
      
+    }
+
+    static async killProcess(){
+
+        exec(`killall -e python3`,async (error, stdout, stderr) => {
+   
+            if(error) {
+                
+            }
+    
+            if(stdout){
+    
+            }
+    
+            if(stderr){
+                console.log('A schedule finalizado.');
+               
+            }
+    })
+
+    }
+
+    static async AtivarAutomacao(id:String, typeOfIrrigation: String){
+        const repository = new PlantationRepository();
+        exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
+                    
+            if(error) {
+                console.log(error.message)
+            }
+    
+            if(stdout){
+                 const situation = await repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
+                 
+                 const datas = stdout.replace('\r\n','').split(' ')
+                 const  situations = await  repository.RegisterSituation(datas[0],datas[1],new Date(datas[2]),datas[3] )
+                 
+    
+            }
+    
+            if(stderr){
+                console.log(stderr); 
+            }
+    })
+
     }
 
 }

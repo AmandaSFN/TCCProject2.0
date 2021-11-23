@@ -1,10 +1,11 @@
 import { PlantationRepository } from "../../Repository/PlantationRepository";
 import {exec} from 'child_process';
+import { ToggleTypeIrrigationUseCase } from "../ToggleTypeIrrigation/ToggleTypeIrrigationUseCase";
 
 
 
 
-class ActivateIrrigationUseCase{
+class ActivateIrrigationUseCase {
 
 
     constructor(){}
@@ -16,7 +17,7 @@ class ActivateIrrigationUseCase{
        
        //porcentagem = porcentagem /100
 
-       
+       ToggleTypeIrrigationUseCase.killProcess()
 
         return new Promise(async(resolve, reject) =>{
 
@@ -40,8 +41,12 @@ class ActivateIrrigationUseCase{
                 }
         })
         
+        const id = 'e2a06b96-5c1b-486c-8e1e-f500d537c0d6'
+        ToggleTypeIrrigationUseCase.AtivarAutomacao(id,'IA')
+
         }) 
     
+        
     }
      
 

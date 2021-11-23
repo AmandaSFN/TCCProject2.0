@@ -8,17 +8,20 @@ import schedule
 from datetime import datetime
 import sqlite3
 import uuid
+import os
+import sys
+
+knn = Knn_Algoritm.Knn_Algoritm
+file = FileFunctions.FileFunctions
+api = APIRequests.APIRequests
+dataP = DataProcessing.DataProcessing
+automacao = Automacao.Automacao
+mongoDbClass = MongoDBClass.MongoDBClass
 
 currentUmidity = 0.0
 
 
 def Job():
-    knn = Knn_Algoritm.Knn_Algoritm
-    file = FileFunctions.FileFunctions
-    api = APIRequests.APIRequests
-    dataP = DataProcessing.DataProcessing
-    automacao = Automacao.Automacao
-    mongoDbClass = MongoDBClass.MongoDBClass
 
     # Exporta dados da collection IA do Mongo DB para CSV
     mongoDbClass.ImportIADatabase()
@@ -59,18 +62,24 @@ def Job():
     mongoDbClass.InsertMongoDBCollection_IA_DATABASE_TRAINING(newDocument)
 
     # Aciona o Rele que realiza a irrigacao
-    automacao.AcionarRele(predictedValue, 0.45)
+    automacao.AcionarRele(predictedValue, 0.10)
 
     data_hora = datetime.now()
 
-    con = sqlite3.connect('plantation')
-    cur = con.cursor()
-    cur.execute(
-        "INSERT INTO PlantingSituation VALUES (?,'e2a06b96-5c1b-486c-8e1e-f500d537c0d6','IA',?,?)", (str(uuid.uuid4()), data_hora, currentUmidity,))
-    con.commit()
-    con.close()
+    if(predictedValue == 1):
+        con = sqlite3.connect('plantation')
+        cur = con.cursor()
+        cur.execute(
+            "INSERT INTO PlantingSituation VALUES (?,'e2a06b96-5c1b-486c-8e1e-f500d537c0d6','IA',?,?)", (str(uuid.uuid4()), data_hora, currentUmidity,))
+        con.commit()
+        con.close()
 
 
-schedule.every(10).seconds.do(Job)
-while(True):
-    schedule.run_pending()
+pidfile = "/tmp/mypython3IA.pid"
+file.Processo(pidfile)
+try:
+    schedule.every(60).seconds.do(Job)
+    while(True):
+        schedule.run_pending()
+finally:
+    os.unlink(pidfile)

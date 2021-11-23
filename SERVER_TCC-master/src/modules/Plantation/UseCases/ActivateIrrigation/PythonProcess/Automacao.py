@@ -24,7 +24,7 @@ class Automacao():
     @staticmethod
     def MedirUmidadeDoSoloEmPorcentagem():
 
-        valor_max_sensor = 23000  # valor maximo do sinal analogico
+        valor_max_sensor = 26000  # valor maximo do sinal analogico
         valor_min_sensor = 11000  # valor minimo do sinal analogico
         percentual = 0
 
