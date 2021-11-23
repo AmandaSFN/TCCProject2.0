@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import { ActivateIrrigationController } from '../modules/Plantation/UseCases/ActivateIrrigation/ActivateIrrigationController';
 import { CreatePlantationController } from '../modules/Plantation/UseCases/CreatePlantation/CreatePlantationController';
+import { GetHumidityController } from '../modules/Plantation/UseCases/GetHumidity/GetHumidityController';
 import { GetPlantationController } from '../modules/Plantation/UseCases/GetPlantation/GetPlantationController';
 import { GetSituationController } from '../modules/Plantation/UseCases/GetSituation/GetSituationController';
 import { RegisterSituationController } from '../modules/Plantation/UseCases/RegisterSituation/RegisterSituationController';
@@ -39,6 +40,13 @@ plantationRoute.post('/platation/activate-irrigation',  (req,res)=>{
     controller.handle(req, res);
 
 })
+
+plantationRoute.get('/plantation/get-humidity', (req,res)=>{
+    const controller = new GetHumidityController();
+
+    controller.handle(req, res);
+})
+
 
 
 export {plantationRoute}
