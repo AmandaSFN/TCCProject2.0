@@ -18,6 +18,8 @@ class GetPlantationController {
 
         const getPlantationUseCase = new GetPlantationUseCase();
 
+        
+
         try {
 
             const plantation = await getPlantationUseCase.execute(id)

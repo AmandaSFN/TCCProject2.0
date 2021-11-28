@@ -16,12 +16,14 @@ class ToggleTypeIrrigationUseCase {
     try {
         
         //ATIVAR A IA
-        console.log(typeOfIrrigation)
+    
+        
+        const repository = new PlantationRepository();
         if(typeOfIrrigation === "IA"){
+            repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
+
+            //ToggleTypeIrrigationUseCase.AtivarAutomacao(id,typeOfIrrigation)
             
-            ToggleTypeIrrigationUseCase.AtivarAutomacao(id,typeOfIrrigation)
-            
-        //     const repository = new PlantationRepository();
         //     exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
                     
         //         if(error) {
@@ -46,7 +48,9 @@ class ToggleTypeIrrigationUseCase {
     //PARAR A IA
        else {
 
-        ToggleTypeIrrigationUseCase.killProcess();
+        repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
+
+        //ToggleTypeIrrigationUseCase.killProcess();
 
     //         exec(`killall -e python3`,async (error, stdout, stderr) => {
    
@@ -84,11 +88,12 @@ class ToggleTypeIrrigationUseCase {
             }
     
             if(stdout){
+                console.log(stdout)
     
             }
     
             if(stderr){
-                console.log('A schedule finalizado.');
+                console.log(stderr)
                
             }
     })

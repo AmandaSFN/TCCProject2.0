@@ -41,7 +41,7 @@ plantationRoute.post('/platation/activate-irrigation',  (req,res)=>{
 
 })
 
-plantationRoute.get('/plantation/get-humidity', (req,res)=>{
+plantationRoute.put('/plantation/get-humidity', (req,res)=>{
     const controller = new GetHumidityController();
 
     controller.handle(req, res);

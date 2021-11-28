@@ -23,7 +23,7 @@ class GetHumidityUseCase{
             
             return new Promise(async (resolve, reject) =>{
 
-                return exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/ObterUmidadeDoSolo.py`,async (error, stdout, stderr) => {
+                return exec(`python ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/ObterUmidadeDoSolo.py`,async (error, stdout, stderr) => {
     
                     if(error) {
                         
@@ -43,7 +43,7 @@ class GetHumidityUseCase{
                         reject(stderr);
                     
                     }
-            })
+                })
 
             })
 
