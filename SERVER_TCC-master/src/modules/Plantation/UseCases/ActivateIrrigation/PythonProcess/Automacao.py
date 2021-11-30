@@ -97,20 +97,29 @@ class Automacao():
     #         GPIO.output(pino_rele_1, 0)
 
     def AcionarRele(acionar, porcentagem):
+        import RPi.GPIO as GPIO
+        # Configuracao das GPIOs (BCM)]
+        GPIO.setwarnings(False)
+        pino_rele_1 = 20
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pino_rele_1, GPIO.OUT)
+
+        if(acionar == 0):
+            GPIO.output(pino_rele_1, 1)
+
         if(acionar == 1):
-            import RPi.GPIO as GPIO
-            # Configuracao das GPIOs (BCM)]
-            GPIO.setwarnings(False)
-            pino_rele_1 = 21
-            GPIO.setmode(GPIO.BCM)
-            GPIO.setup(pino_rele_1, GPIO.OUT)
-            # Liga o Rele
-            GPIO.output(pino_rele_1, 0)
+            GPIO.output(pino_rele_1, 1)
 
             umidade = Automacao.MedirUmidadeDoSoloEmPorcentagem()
 
-            while(umidade <= porcentagem):
-                umidade = Automacao.MedirUmidadeDoSoloEmPorcentagem()
+            if(umidade < porcentagem):
+                # Liga o Rele
+                GPIO.output(pino_rele_1, 0)
 
-            # Desliga o Rele
-            GPIO.output(pino_rele_1, 1)
+                while(umidade <= porcentagem):
+                    umidade = Automacao.MedirUmidadeDoSoloEmPorcentagem()
+
+                # Desliga o Rele
+                GPIO.output(pino_rele_1, 1)
+
+            GPIO.cleanup()

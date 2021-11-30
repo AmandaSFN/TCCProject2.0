@@ -19,10 +19,11 @@ class ToggleTypeIrrigationUseCase {
     
         
         const repository = new PlantationRepository();
-        if(typeOfIrrigation === "IA"){
-            repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
+        const situation = await repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
 
-            //ToggleTypeIrrigationUseCase.AtivarAutomacao(id,typeOfIrrigation)
+        if(typeOfIrrigation === "IA"){
+
+            ToggleTypeIrrigationUseCase.AtivarAutomacao(id,typeOfIrrigation)
             
         //     exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
                     
@@ -48,9 +49,9 @@ class ToggleTypeIrrigationUseCase {
     //PARAR A IA
        else {
 
-        repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
 
-        //ToggleTypeIrrigationUseCase.killProcess();
+        await ToggleTypeIrrigationUseCase.killProcess();
+        await this.PararRele();
 
     //         exec(`killall -e python3`,async (error, stdout, stderr) => {
    
@@ -81,7 +82,7 @@ class ToggleTypeIrrigationUseCase {
 
     static async killProcess(){
 
-        exec(`killall -e python3`,async (error, stdout, stderr) => {
+       await  exec(`killall -e python3`,async (error, stdout, stderr) => {
    
             if(error) {
                 
@@ -100,16 +101,35 @@ class ToggleTypeIrrigationUseCase {
 
     }
 
+    async PararRele(){
+
+        await  exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/PararRele.py`,async (error, stdout, stderr) => {
+   
+            if(error) {
+                
+            }
+    
+            if(stdout){
+                console.log(stdout)
+    
+            }
+    
+            if(stderr){
+                console.log(stderr)
+               
+            }
+    })
+    }
+
     static async AtivarAutomacao(id:String, typeOfIrrigation: String){
         const repository = new PlantationRepository();
-        exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
+       await  exec(`python3 ./src/modules/Plantation/UseCases/ActivateIrrigation/PythonProcess/Main.py`,async (error, stdout, stderr) => {
                     
             if(error) {
                 console.log(error.message)
             }
     
             if(stdout){
-                 const situation = await repository.AlterTypeOfIrrigation(id,typeOfIrrigation)
                  
                  const datas = stdout.replace('\r\n','').split(' ')
                  const  situations = await  repository.RegisterSituation(datas[0],datas[1],new Date(datas[2]),datas[3] )

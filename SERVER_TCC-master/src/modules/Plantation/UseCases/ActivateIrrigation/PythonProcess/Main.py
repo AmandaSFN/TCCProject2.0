@@ -62,7 +62,7 @@ def Job():
     mongoDbClass.InsertMongoDBCollection_IA_DATABASE_TRAINING(newDocument)
 
     # Aciona o Rele que realiza a irrigacao
-    automacao.AcionarRele(predictedValue, 0.10)
+    automacao.AcionarRele(predictedValue, 0.45)
 
     data_hora = datetime.now()
 
@@ -78,7 +78,7 @@ def Job():
 pidfile = "/tmp/mypython3IA.pid"
 file.Processo(pidfile)
 try:
-    schedule.every(60).seconds.do(Job)
+    schedule.every(5).minutes.do(Job)
     while(True):
         schedule.run_pending()
 finally:
